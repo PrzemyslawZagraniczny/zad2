@@ -1,0 +1,12 @@
+version: '3.3'
+services:
+  ebiznes:
+    image: pz/ebiznes
+    build: .
+    ports:
+      - 9001:9000
+      - 3001:3000
+    volumes:
+      - .:/home/projekty/szkola
+    working_dir: /home/projekty/szkola
+    command: sbt run
