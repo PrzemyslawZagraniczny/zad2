@@ -1,19 +1,20 @@
+
 # --- !Ups
 
-CRETE TABLE "Product" (
-    "id"            INTEGER NOT NULL, PRIMARY KEY AUTOINCREMENT,
-    "Name"          VARCHAR(125) NOT NULL,
-    "Description"   VARCHAR(255),
+CREATE TABLE "category" (
+ "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+ "name" VARCHAR NOT NULL
 );
 
-CRETE TABLE "Category" (
-    "id"            INTEGER NOT NULL, PRIMARY KEY AUTOINCREMENT,
-    "Name"          VARCHAR(125) NOT NULL ,
- );
-
+CREATE TABLE "product" (
+ "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+ "name" VARCHAR NOT NULL,
+ "description" TEXT NOT NULL,
+ "category" INT NOT NULL,
+ FOREIGN KEY(category) references category(id)
+);
 
 # --- !Downs
 
-DROP TABLE "Product" IF EXISTS;
-DROP TABLE "Category" IF EXISTS;
-
+DROP TABLE "category"
+DROP TABLE "product"

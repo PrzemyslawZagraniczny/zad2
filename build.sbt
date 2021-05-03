@@ -8,9 +8,13 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava)
 scalaVersion := "2.12.12"
 
 libraryDependencies += guice
-libraryDependencies += "com.typesafe.play" %% "play-slick" % "5.0.0"
-libraryDependencies += "com.typesafe.play" %% "play-slick-evolutions" % "5.0.0"
-//libraryDependencies += "slick.driver.SQLite" %% "play-slick-evolutions" % "3.0.3"
-libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.34.0"
 
-//resolvers += "scalaz-binary" at "https://dl.bintray.com/scalaz/releases"
+libraryDependencies ++= Seq( ehcache , ws , specs2 % Test , guice )
+libraryDependencies ++= Seq(
+  "com.typesafe.play" %% "play-slick" % "4.0.0",
+  "com.typesafe.play" %% "play-slick-evolutions" % "4.0.0",
+  "org.xerial"        %  "sqlite-jdbc" % "3.30.1"
+)
+
+resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
+resolvers += "Akka Snapshot Repository" at "https://repo.akka.io/snapshots/"
