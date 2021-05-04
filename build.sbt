@@ -16,5 +16,5 @@ libraryDependencies ++= Seq(
   "org.xerial"        %  "sqlite-jdbc" % "3.30.1"
 )
 
-resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
+//resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 resolvers += "Akka Snapshot Repository" at "https://repo.akka.io/snapshots/"
