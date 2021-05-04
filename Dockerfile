@@ -18,14 +18,16 @@ RUN wget https://www.scala-lang.org/files/archive/scala-2.12.12.deb &&\
 	apt-get install -y scala
 
 EXPOSE 3000
+EXPOSE 9000
+EXPOSE 5000
 
 #SBT
-RUN wget http://dl.bintray.com/sbt/debian/sbt-1.4.9.deb &&\
-	dpkg -i sbt-1.4.9.deb && apt-get update &&\
-	rm sbt-1.4.9.deb &&\
+RUN wget https://scala.jfrog.io/artifactory/debian/sbt-1.5.1.deb &&\
+	dpkg -i sbt-1.5.1.deb && apt-get update &&\
+	rm sbt-1.5.1.deb &&\
 	apt-get install -y sbt
 #NODE
 RUN apt-get update &&\
-	curl -sL https://deb.nodesource.com/setup_16.x  | bash - &&\
+	curl -sL https://deb.nodesource.com/setup_14.x  | bash - &&\
 	apt-get install -y nodejs && npm install
 
