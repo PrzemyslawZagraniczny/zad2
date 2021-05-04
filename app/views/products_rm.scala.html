@@ -1,9 +1,7 @@
-@import play.api.mvc.Flash
-
-@(products: Seq[Product])(implicit flash: Flash)
+@(products: Seq[Product])
 
 @main("Sklep - projekt") {
-<h3 class="info">@flash.get("success").getOrElse("Lista produktów")</h3>
+
 
 <table class="produkty">
     <thead>
@@ -21,7 +19,7 @@
                     <td>@product.id</td>
                     <td>@product.name</td>
                     <td>@product.category</td>
-                    <td> <a href=@routes.HomeController.getProduct(product.id)>Szczegóły</a></td>
+                    <td> <a href=@routes.HomeController.delProduct(product.id)>Usuń</a></td>
 
             </tr>
 

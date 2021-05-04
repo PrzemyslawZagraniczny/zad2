@@ -74,7 +74,8 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
    * List all the people in the database.
    */
   def list(): Future[Seq[Product]] = db.run {
-    product.result
+
+    (product.result)
   }
 
   def getByCategory(category_id: Int): Future[Seq[Product]] = db.run {
