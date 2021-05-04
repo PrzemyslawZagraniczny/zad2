@@ -9,15 +9,20 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
-GET     /addproduct                 controllers.HomeController.addProduct
-POST    /addproducthandle           controllers.HomeController.addProductHandle
-#GET     /updateproduct/:id          controllers.HomeController.updateProduct(id: Long)
-#POST    /updateproducthandle        controllers.HomeController.updateProductHandle
+GET     /addproduct                 controllers.ProductController.addProduct
+POST    /addproducthandle           controllers.ProductController.addProductHandle
+GET     /updateproduct/:id          controllers.ProductController.updateProduct(id: Long)
+POST    /updateproducthandle        controllers.ProductController.updateProductHandle
 
-GET     /products                   controllers.HomeController.getProducts
-GET     /productsrm                   controllers.HomeController.getProductsRm
-GET     /product/:id                controllers.HomeController.getProduct(id: Long)
-GET     /delete/:id                 controllers.HomeController.delProduct(id: Long)
+GET     /products                   controllers.ProductController.getProducts
+GET     /productsrm                 controllers.ProductController.getProductsRm
+GET     /productsupdt               controllers.ProductController.getProductsUpdate
+GET     /product/:id                controllers.ProductController.getProduct(id: Long)
+GET     /delete/:id                 controllers.ProductController.delProduct(id: Long)
+
+GET     /cats                   controllers.CategoryController.getCats
+GET     /cat/:id                controllers.CategoryController.getCat(id: Int)
+
 # An example controller showing how to use dependency injection
 #GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code

@@ -5,6 +5,11 @@ body {
 .produkty {
     margin-top: 20px;
 }
+.detail {
+    margin: auto;
+    text-align: center;
+    font-size: 24px;
+}
 h3 {
     text-align: center;
     color: gray;

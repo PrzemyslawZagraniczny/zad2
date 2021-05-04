@@ -3,22 +3,20 @@
 @import play.api.data.Forms._
 @import play.api.data.Form
 @import helper._
+@import helper.CSRF
 
-@(product: Form[UpdateProductForm],category: Seq[Category]) (implicit request: MessagesRequestHeader, flash: Flash)
-
-
+@(product: Form[UpdateProductForm],category: Seq[Category])(implicit request: MessagesRequestHeader, flash: Flash)
 
 
 @main("Sklep - projekt") {
 
-    @flash.get("success").getOrElse("")
+    @form((routes.ProductController.updateProductHandle)) {
 
-    @form(routes.HomeController.updateProductHandle()) {
     @helper.CSRF.formField
     <input name="id" id="id" value="@product("id").value" type="hidden" />
     @inputText(product("name"))
     @inputText(product("description"))
-
+    @inputText(product("price"))
 
     <select name="category" id="category">
         @for(cat <- category){
@@ -27,12 +25,11 @@
             }else{
                 <option value="@cat.id">@cat.name</option>
             }
-
         }
     </select>
 
     <div class="buttons">
-        <input type="submit" value="Update Product"/>
+        <input type="submit" value="Aktualizuj"/>
     </div>
     }
 }

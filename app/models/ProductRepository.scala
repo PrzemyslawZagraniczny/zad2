@@ -25,8 +25,15 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
     def description = column[String]("description")
 
     def category = column[Int]("category")
+    def price = column[Int]("price")
 
-    def category_fk = foreignKey("cat_fk",category, cat)(_.id)
+    def category_fk = foreignKey("cat_fk",category, cat)(_.id, onDelete = ForeignKeyAction.Cascade)
+
+
+//    def innerJoin() : Future[Seq[(Product,Category)]] = db.run{
+//      product.
+//        join(cat).on(_.category === _.id).result
+//    }
 
 
     /**
@@ -37,7 +44,7 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
      * In this case, we are simply passing the id, name and page parameters to the Person case classes
      * apply and unapply methods.
      */
-    def * = (id, name, description, category) <> ((Product.apply _).tupled, Product.unapply)
+    def * = (id, category, name, description, price) <> ((Product.apply _).tupled, Product.unapply)
 
   }
 
@@ -58,16 +65,16 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
    * This is an asynchronous operation, it will return a future of the created person, which can be used to obtain the
    * id for that person.
    */
-  def create(name: String, description: String, category: Int): Future[Product] = db.run {
+  def create( category: Int, name: String, description: String, price: Int): Future[Product] = db.run {
     // We create a projection of just the name and age columns, since we're not inserting a value for the id column
-    (product.map(p => (p.name, p.description,p.category))
+    (product.map(p => (p.category, p.name, p.description, p.price))
       // Now define it to return the id, because we want to know what id was generated for the person
       returning product.map(_.id)
       // And we define a transformation for the returned value, which combines our original parameters with the
       // returned id
-      into {case ((name,description,category),id) => Product(id,name, description,category)}
+      into {case ((category, name,description,price ),id) => Product(id,category, name, description,price)}
       // And finally, insert the product into the database
-      ) += (name, description,category)
+      ) += (category, name, description,price)
   }
 
   /**
@@ -76,6 +83,10 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
   def list(): Future[Seq[Product]] = db.run {
 
     (product.result)
+  }
+
+  def getCategoryName(category_id: Int): Future[Seq[Category]] = db.run {
+    cat.filter(_.id === category_id  ).result
   }
 
   def getByCategory(category_id: Int): Future[Seq[Product]] = db.run {

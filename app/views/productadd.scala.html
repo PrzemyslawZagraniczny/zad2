@@ -6,17 +6,18 @@
 @(product: Form[CreateProductForm],category: Seq[Category])(implicit request: MessagesRequestHeader, flash: Flash)
 
 @import helper._
-
+@helper.CSRF.formField
 
 
 @main("Sklep - projekt") {
 
 
 
-@form(routes.HomeController.addProductHandle) {
-@helper.CSRF.formField
+@form(routes.ProductController.addProductHandle) {
+
 @inputText(product("name"))
 @inputText(product("description"))
+@inputText(product("price"))
 
   <select name="category" id="category">
     @for(cat <- category){

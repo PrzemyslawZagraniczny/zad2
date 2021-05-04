@@ -29,28 +29,32 @@
                 <a href=@routes.HomeController.index class="btn btn-menu" id="mainPage">
                     Strona główna
                 </a>
-                <a class="btn btn-menu" id="produkty_list" href = @routes.HomeController.getProducts >
+                <a class="btn btn-menu" id="produkty_list" href = @routes.ProductController.getProducts >
                     Lista produktów
                 </a>
-                <a class="btn btn-menu" id="dodaj_produkt" href = @routes.HomeController.addProduct >
+                <a class="btn btn-menu" id="dodaj_produkt" href = @routes.ProductController.addProduct >
                     Dodaj produkt
                 </a>
-                <a class="btn btn-menu" id="delete_produkt" href = @routes.HomeController.getProductsRm >
+                <a class="btn btn-menu" id="delete_produkt" href = @routes.ProductController.getProductsRm >
                     Usuń produkt
                 </a>
-                <a class="btn btn-menu" id="aktualizuj_produkt" href = @routes.HomeController.addProduct >
+                <a class="btn btn-menu" id="aktualizuj_produkt" href = @routes.ProductController.getProductsUpdate >
                     Aktualizuj produkt
                 </a>
-                <a class="btn btn-menu" id="dodaj_kat" href = @routes.HomeController.addProduct >
+                <a class="btn btn-menu" id="kats_list" href = @routes.CategoryController.getCats >
+                    Lista kategorii
+                </a>
+
+                <a class="btn btn-menu" id="dodaj_kat" href = "#" >
                     Dodaj kategorię
                 </a>
-                <a class="btn btn-menu" id="delete_produkt" href = @routes.HomeController.addProduct >
+                <a class="btn btn-menu" id="delete_cat" href = "#" >
                     Usuń kategorię
                 </a>
-                <a class="btn btn-menu" id="aktualizuj_produkt" href = @routes.HomeController.addProduct >
+                <a class="btn btn-menu" id="aktualizuj_cat" href = "#" >
                     Aktualizuj kategorię
                 </a>
-                <a class="btn btn-menu" id="szukaj_produkt" href = @routes.HomeController.addProduct >
+                <a class="btn btn-menu" id="szukaj_produkt" href = "" >
                     Wyszukiwanie produktów
                 </a>
 
