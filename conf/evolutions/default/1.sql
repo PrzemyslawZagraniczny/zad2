@@ -5,7 +5,7 @@
 -- kategorie towarow
 CREATE TABLE "category" (
 	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	"name" VARCHAR(200) NOT NULL,
+	"name" VARCHAR(220) NOT NULL,
 	"description" VARCHAR(500) NOT NULL
 );
 

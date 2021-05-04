@@ -5,7 +5,6 @@ import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.JdbcProfile
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.reflect.internal.NoPhase.description
 
 @Singleton
 class CategoryRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
@@ -23,12 +22,12 @@ class CategoryRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(im
 
   val category = TableQuery[CategoryTable]
 
-  def create(name: String): Future[Category] = db.run {
+  def create(name: String, desc: String ): Future[Category] = db.run {
     (category.map(c => (c.name, c.desc))
       returning category.map(_.id)
       into {case ((name,desc),id) => Category(id, name, desc)}
       // And finally, insert the product into the database
-      ) += (name, description)
+      ) += (name, desc)
   }
 
   def list(): Future[Seq[Category]] = db.run {

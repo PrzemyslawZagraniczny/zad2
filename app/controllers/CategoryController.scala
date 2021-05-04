@@ -24,7 +24,7 @@ class CategoryController @Inject()(catsRepo: CategoryRepository, cc: MessagesCon
 
   val updateCategoryForm: Form[UpdateCategoryForm] = Form {
     mapping(
-      "id" -> longNumber,
+      "id" -> number,
       "name" -> nonEmptyText,
       "desc" -> nonEmptyText,
     )(UpdateCategoryForm.apply)(UpdateCategoryForm.unapply)
@@ -39,18 +39,22 @@ class CategoryController @Inject()(catsRepo: CategoryRepository, cc: MessagesCon
     println(cats)
     cats.map( cats => Ok(views.html.cats(cats)))
   }
-////wyświetla liste dla usuniecia
-//  def getProductsRm: Action[AnyContent] = Action.async { implicit request =>
-//    val produkty = productsRepo.list()
-////    println(produkty)
-//    produkty.map( products => Ok(views.html.products_rm(products)))
-//  }
-//
-//  //wyświetla liste dla aktualizacji
+//wyświetla liste dla usuniecia
+  def getCatsRm: Action[AnyContent] = Action.async { implicit request =>
+    val kats = catsRepo.list()
+//    println(produkty)
+    kats.map( cats => Ok(views.html.cats_rm(cats)))
+  }
+  def delCat(id: Int): Action[AnyContent] = Action {
+    catsRepo.delete(id)
+    Redirect(controllers.routes.CategoryController.getCatsRm)
+  }
+
+  //wyświetla liste dla aktualizacji
 //  def getProductsUpdate: Action[AnyContent] = Action.async { implicit request =>
-//    val produkty = productsRepo.list()
+//    val kats = catsRepo.list()
 //    //    println(produkty)
-//    produkty.map( products => Ok(views.html.products_updt(products)))
+//    kats.map( cats => Ok(views.html.products_updt(cats)))
 //  }
   def getCat(id: Int): Action[AnyContent] = Action.async { implicit request =>
     val kat = catsRepo.getByIdOption(id)
@@ -60,12 +64,9 @@ class CategoryController @Inject()(catsRepo: CategoryRepository, cc: MessagesCon
     })
   }
 
-//  def delProduct(id: Long): Action[AnyContent] = Action {
-//    categoryRepo.delete(id)
-//    Redirect(controllers.routes.HomeController.getProductsRm)
-//  }
 
-//  def updateProduct(id: Long): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
+
+//  def updateProduct(id: Int): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
 //    var categ:Seq[Category] = Seq[Category]()
 //    val categories = categoryRepo.list().onComplete{
 //      case Success(cat) => categ = cat
@@ -133,4 +134,4 @@ class CategoryController @Inject()(catsRepo: CategoryRepository, cc: MessagesCon
 }
 
 case class CreateCategoryForm(name: String, desc: String)
-case class UpdateCategoryForm(id: Long, name: String, desc: String)
+case class UpdateCategoryForm(id: Int, name: String, desc: String)

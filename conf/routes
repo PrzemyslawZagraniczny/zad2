@@ -20,8 +20,11 @@ GET     /productsupdt               controllers.ProductController.getProductsUpd
 GET     /product/:id                controllers.ProductController.getProduct(id: Long)
 GET     /delete/:id                 controllers.ProductController.delProduct(id: Long)
 
-GET     /cats                   controllers.CategoryController.getCats
-GET     /cat/:id                controllers.CategoryController.getCat(id: Int)
+GET     /cats                       controllers.CategoryController.getCats
+GET     /cat/:id                    controllers.CategoryController.getCat(id: Int)
+GET     /delcat/:id                 controllers.CategoryController.delCat(id: Int)
+GET     /catsrm                     controllers.CategoryController.getCatsRm
+
 
 # An example controller showing how to use dependency injection
 #GET     /count                      controllers.CountController.count
