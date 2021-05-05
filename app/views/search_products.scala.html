@@ -1,0 +1,36 @@
+@import play.api.mvc.Flash
+
+@(products: Seq[(Product, Category)])(implicit flash: Flash)
+
+@main("Sklep - projekt") {
+<h3 class="info">@flash.get("success").getOrElse("Lista produktów")</h3>
+
+<table class="produkty">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>Nazwa</th>
+            <th>Kategoria</th>
+<!--            <th>Kolor</th>-->
+            <th>Cena</th>
+            <th>Akcja</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(product <- products) {
+
+            <tr>
+
+                    <td>@product._1.id</td>
+                    <td>@product._1.name</td>
+                    <td>@product._2.name</td>
+
+                    <td>@(product._1.price/100.0) PLN</td>
+                    <td> <a href=@routes.ProductController.getProduct(product._1.id)>Szczegóły</a></td>
+
+            </tr>
+
+        }
+    </tbody>
+</table>
+}

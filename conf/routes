@@ -25,6 +25,9 @@ GET     /cat/:id                    controllers.CategoryController.getCat(id: In
 GET     /delcat/:id                 controllers.CategoryController.delCat(id: Int)
 GET     /catsrm                     controllers.CategoryController.getCatsRm
 
+#SearchController
+GET     /searchproducts             controllers.SearchController.filterProducts
+#GET     /searchproducts             controllers.SearchController.filterProductsSnd(products: Seq[Product])
 
 # An example controller showing how to use dependency injection
 #GET     /count                      controllers.CountController.count

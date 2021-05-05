@@ -1,6 +1,12 @@
 
 # --- !Ups
+PRAGMA foreign_keys = ON;
 
+CREATE TABLE "color" (
+ "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+ "name" VARCHAR(20) NOT NULL,
+ "value" VARCHAR(27) NOT NULL
+);
 
 -- kategorie towarow
 CREATE TABLE "category" (
@@ -12,10 +18,13 @@ CREATE TABLE "category" (
 
 CREATE TABLE "product" (
 	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "category" INTEGER NOT NULL REFERENCES category(id),
+    "category" INTEGER NOT NULL,
+    "color" INTEGER DEFAULT NULL,
 	"name" VARCHAR(200) NOT NULL,
 	"description" VARCHAR(500) NOT NULL,
-	"price" INTEGER NOT NULL   -- price / 100 == PLN
+	"price" INTEGER NOT NULL,   -- price / 100 == PLN
+	FOREIGN KEY(category) references category(id) ON DELETE CASCADE
+	FOREIGN KEY(color) references color(id) ON DELETE CASCADE
 );
 
 # --- !Downs

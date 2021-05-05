@@ -1,10 +1,11 @@
 package controllers
 
 import javax.inject._
-import models.{Category, CategoryRepository, Product, ProductRepository}
+import models.{Category, CategoryRepository, Color, ColorRepository, Product, ProductRepository}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
+
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
@@ -13,11 +14,12 @@ import scala.util.{Failure, Success}
  * application's home page.
  */
 @Singleton
-class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo: CategoryRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
+class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo: CategoryRepository, colorRepo: ColorRepository,  cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
 
   val productForm: Form[CreateProductForm] = Form {
     mapping(
       "category" -> number,
+      "color" -> number,
       "name" -> nonEmptyText,
       "description" -> nonEmptyText,
       "price" -> number,
@@ -28,6 +30,7 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
     mapping(
       "id" -> longNumber,
       "category" -> number,
+      "color" -> number,
       "name" -> nonEmptyText,
       "description" -> nonEmptyText,
       "price" -> number,
@@ -38,6 +41,12 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
     val produkty = productsRepo.list()
     println("LISTA:")
     println(produkty)
+    produkty.map( products =>
+      for(p <- products) {
+        val kategorie = productsRepo.getCategoryName(p.category)
+        kategorie.onComplete( c =>  c.map(cc => println(p.name + ": " + cc(0).name)).getOrElse(println(p.name + ": NULL"  )))
+      }
+    )
     produkty.map( products => Ok(views.html.products(products)))
   }
 //wyświetla liste dla usuniecia
@@ -75,7 +84,7 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
 
     val produkt = productsRepo.getById(id)
     produkt.map(product => {
-      val prodForm = updateProductForm.fill(UpdateProductForm(product.id, product.category, product.name, product.description,product.price))
+      val prodForm = updateProductForm.fill(UpdateProductForm(product.id, product.category, product.color, product.name, product.description,product.price))
       //  id, product.name, product.description, product.category)
       //updateProductForm.fill(prodForm)
       Ok(views.html.productupdate(prodForm, categ))
@@ -96,7 +105,7 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
         )
       },
       product => {
-        productsRepo.update(product.id, Product(product.id, product.category, product.name, product.description, product.price)).map { _ =>
+        productsRepo.update(product.id, Product(product.id, product.category, product.color,  product.name, product.description, product.price)).map { _ =>
           Redirect(controllers.routes.ProductController.getProductsUpdate).flashing("success" -> "Zaktualizowano dane o produkcie.")
         }
       }
@@ -126,7 +135,7 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
       },
       product => {
 
-        productsRepo.create(product.category, product.name, product.description, product.price).map { _ =>
+          productsRepo.create(product.category, product.color, product.name, product.description, product.price).map { _ =>
 
           Redirect(controllers.routes.ProductController.getProducts).flashing("success" -> "Produkt zostal dodany")
         }
@@ -135,5 +144,5 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
   }
 }
 
-case class CreateProductForm( category: Int, name: String, description: String, price: Int)
-case class UpdateProductForm(id: Long,category: Int, name: String, description: String, price: Int)
+case class CreateProductForm( category: Int, color: Int, name: String, description: String, price: Int)
+case class UpdateProductForm(id: Long,category: Int, color: Int, name: String, description: String, price: Int)
