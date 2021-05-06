@@ -13,10 +13,12 @@ class ColorRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implic
   import dbConfig._
   import profile.api._
 
-  class ColorTable(tag: Tag) extends Table[Color](tag, "category") {
+  class ColorTable(tag: Tag) extends Table[Color](tag, "color") {
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
     def name = column[String]("name")
     def value = column[String]("value")
+    print("COLORS:")
+    println(name +" :" + value)
     def * = (id, name, value) <> ((Color.apply _).tupled, Color.unapply)
   }
 

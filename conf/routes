@@ -8,7 +8,10 @@
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 # An example controller showing a sample home page
+#HomeController
 GET     /                           controllers.HomeController.index
+
+#ProductController
 GET     /addproduct                 controllers.ProductController.addProduct
 POST    /addproducthandle           controllers.ProductController.addProductHandle
 GET     /updateproduct/:id          controllers.ProductController.updateProduct(id: Long)
@@ -20,14 +23,26 @@ GET     /productsupdt               controllers.ProductController.getProductsUpd
 GET     /product/:id                controllers.ProductController.getProduct(id: Long)
 GET     /delete/:id                 controllers.ProductController.delProduct(id: Long)
 
+#CategoryController
 GET     /cats                       controllers.CategoryController.getCats
 GET     /cat/:id                    controllers.CategoryController.getCat(id: Int)
 GET     /delcat/:id                 controllers.CategoryController.delCat(id: Int)
 GET     /catsrm                     controllers.CategoryController.getCatsRm
 
+#ColorController
+GET     /colors                     controllers.ColorController.getColors
+GET     /color/:id                  controllers.ColorController.getColor(id: Int)
+GET     /delcolor/:id               controllers.ColorController.delColor(id: Int)
+GET     /color_rm                   controllers.ColorController.getColorRm
+GET     /color_updt                 controllers.ColorController.getColorUpdate
+GET     /updatecolor/:id            controllers.ColorController.updateColor(id: Int)
+POST    /updatecolorhandle          controllers.ColorController.updateColorHandle
+GET     /addcolor                   controllers.ColorController.addColor
+POST    /addcolorhandle             controllers.ColorController.addColorHandle
+
 #SearchController
 GET     /searchproducts             controllers.SearchController.filterProducts
-#GET     /searchproducts             controllers.SearchController.filterProductsSnd(products: Seq[Product])
+#GET    /searchproducts             controllers.SearchController.filterProductsSnd(products: Seq[Product])
 
 # An example controller showing how to use dependency injection
 #GET     /count                      controllers.CountController.count

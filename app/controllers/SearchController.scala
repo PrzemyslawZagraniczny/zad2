@@ -1,13 +1,13 @@
 package controllers
 
 import javax.inject._
-import models.{Category, CategoryRepository, Product, ProductRepository}
+import models.{Category, CategoryRepository, ColorRepository, Product, ProductRepository}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
+
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
-
 import controllers.ProductController
 
 /**
@@ -15,7 +15,7 @@ import controllers.ProductController
  * application's home page.
  */
 @Singleton
-class SearchController @Inject()(productsRepo: ProductRepository, categoryRepo: CategoryRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
+class SearchController @Inject()(productsRepo: ProductRepository, categoryRepo: CategoryRepository,colorRepo: ColorRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
   val productForm: Form[CreateProductForm] = Form {
     mapping(
       "category" -> number,
@@ -43,11 +43,9 @@ class SearchController @Inject()(productsRepo: ProductRepository, categoryRepo: 
 //
 //    )
 //  }
+//  rozwinięcie połączenia pomiędzykluczami obcymi
   def filterProducts: Action[AnyContent] = Action.async { implicit request =>
-    val produkty = productsRepo.innerJoinCat()
-//    produkty.map(products =>
-//      Redirect(controllers.routes.SearchController.filterProductsSnd(products))
-//    )
+    val produkty = productsRepo.innerJoinAll()      //==Seq[(Product, Category, Color)]]
 
     produkty.map( products => Ok(views.html.search_products(products)))
 

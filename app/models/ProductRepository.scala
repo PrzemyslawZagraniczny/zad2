@@ -79,9 +79,14 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
       // And finally, insert the product into the database
       ) += (category, color, name, description,price)
   }
-//  def innerJoinAll() : Future[Seq[(Product, Category, Color)]] = db.run{
-//        product.join(cat).on(_.category === _.id).join(col).on(_._1.color === _.id).result.map(a => Seq((a(1)._1._1,a(1)._1._2,a(1)._2))).result
-//  }
+  def innerJoinAll() : Future[Seq[(Product, Category, Color)]] = db.run{
+        product.join(cat).on(_.category === _.id).join(col).on(_._1.color === _.id).result.map( krotki => {
+//        rozbicie tupli ((Product, Category), Color)
+          for {
+            krotka <- krotki
+          }yield (krotka._1._1, krotka._1._2, krotka._2 )
+        })
+  }
 
   def innerJoinCat() : Future[Seq[(Product,Category)]] = db.run{
     product.join(cat).on(_.category === _.id).result
