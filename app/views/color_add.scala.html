@@ -13,7 +13,7 @@
 
 
 
-@form(routes.ColorController.addColorHandle) {
+@form(helper.CSRF(routes.ColorController.addColorHandle)) {
 
 @inputText(color("name"))
 @inputText(color("value"))

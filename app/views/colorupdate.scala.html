@@ -13,7 +13,7 @@
     @form((routes.ColorController.updateColorHandle)) {
 
     @helper.CSRF.formField
-    <input name="id" id="id" value="@color("id").value" type="hidden" />
+    <input name="id" id="id" value=@color("id") type="hidden" />
     @inputText(color("name"))
     @inputText(color("value"))
 

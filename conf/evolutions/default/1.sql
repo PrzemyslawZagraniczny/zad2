@@ -27,9 +27,23 @@ CREATE TABLE "product" (
 	FOREIGN KEY(color) references color(id) ON DELETE CASCADE
 );
 
+CREATE TABLE "size" (
+	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "size" INTEGER  --CHECK( "size" BETWEEN 0 AND 470 OR "size" = 0) -- rozmiar obuwia EU = 10
+);
+
+CREATE TABLE "stock" (
+	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "product" INTEGER NOT NULL REFERENCES product(id),
+    "size" INTEGER NOT NULL REFERENCES "size"(id),
+    "pieces" INTEGER NOT NULL DEFAULT 0
+);
+
+
+
 # --- !Downs
 
-DROP TABLE IF EXISTS  "paragon";
+DROP TABLE IF EXISTS "paragon";
 DROP TABLE IF EXISTS "faktura";
 DROP TABLE IF EXISTS "purchase_unit";
 DROP TABLE IF EXISTS "purchase_total";

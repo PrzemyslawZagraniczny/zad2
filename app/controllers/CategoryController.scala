@@ -18,7 +18,7 @@ class CategoryController @Inject()(catsRepo: CategoryRepository, cc: MessagesCon
   val categoryForm: Form[CreateCategoryForm] = Form {
     mapping(
       "name" -> nonEmptyText,
-      "desc" -> nonEmptyText,
+      "description" -> nonEmptyText,
      )(CreateCategoryForm.apply)(CreateCategoryForm.unapply)
   }
 
@@ -26,7 +26,7 @@ class CategoryController @Inject()(catsRepo: CategoryRepository, cc: MessagesCon
     mapping(
       "id" -> number,
       "name" -> nonEmptyText,
-      "desc" -> nonEmptyText,
+      "description" -> nonEmptyText,
     )(UpdateCategoryForm.apply)(UpdateCategoryForm.unapply)
   }
 
@@ -88,7 +88,7 @@ class CategoryController @Inject()(catsRepo: CategoryRepository, cc: MessagesCon
         )
       },
       category => {
-        catsRepo.update(category.id, Category(category.id, category.name, category.desc )).map { _ =>
+        catsRepo.update(category.id, Category(category.id, category.name, category.description )).map { _ =>
           Redirect(controllers.routes.CategoryController.getCategoryUpdate).flashing("success" -> "Zaktualizowano wartość dla koloru.")
         }
       }
@@ -106,12 +106,14 @@ class CategoryController @Inject()(catsRepo: CategoryRepository, cc: MessagesCon
 
     categoryForm.bindFromRequest.fold(
       errorForm => {
+        println("DATA: " + errorForm.data)
+        errorForm.errors.map(err => println("Err " + err.toString))
         Future.successful(
           BadRequest(views.html.cats_add(errorForm))
         )
       },
       category => {
-        catsRepo.create(category.name, category.desc).map { _ =>
+        catsRepo.create(category.name, category.description).map { _ =>
           Redirect(controllers.routes.CategoryController.getCats).flashing("success" -> "Kolor zostal dodany")
         }
       }
@@ -121,5 +123,5 @@ class CategoryController @Inject()(catsRepo: CategoryRepository, cc: MessagesCon
 
 }
 
-case class CreateCategoryForm(name: String, desc: String)
-case class UpdateCategoryForm(id: Int, name: String, desc: String)
+case class CreateCategoryForm(name: String, description: String)
+case class UpdateCategoryForm(id: Int, name: String, description: String)

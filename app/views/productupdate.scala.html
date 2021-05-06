@@ -13,7 +13,7 @@
     @form((routes.ProductController.updateProductHandle)) {
 
     @helper.CSRF.formField
-    <input name="id" id="id" value="@product("id").value" type="hidden" />
+    <input name="id" id="id" value=@product("id") type="hidden" />
     @inputText(product("name"))
     @inputText(product("description"))
     @inputText(product("price"))

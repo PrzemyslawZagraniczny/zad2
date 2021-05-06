@@ -5,17 +5,16 @@
 @import helper._
 @import helper.CSRF
 
-@(category: Form[UpdateCategoryForm])(implicit request: MessagesRequestHeader, flash: Flash)
+@(size: Form[UpdateSizeForm])(implicit request: MessagesRequestHeader, flash: Flash)
 
 
 @main("Sklep - projekt") {
 
-    @form(helper.CSRF(routes.CategoryController.updateCategoryHandle)) {
+    @form((routes.SizeController.updateSizeHandle)) {
 
     @helper.CSRF.formField
-    <input name="id" id="id" value=@category("id") type="hidden" />
-    @inputText(category("name"))
-    @inputText(category("description"))
+    <input name="id" id="id" value=@size("id") type="hidden" />
+@inputText(size("size"))
 
     <div class="buttons">
         <input type="submit" value="Aktualizuj"/>

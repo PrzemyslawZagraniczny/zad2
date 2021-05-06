@@ -45,6 +45,30 @@ POST    /updatecolorhandle          controllers.ColorController.updateColorHandl
 GET     /addcolor                   controllers.ColorController.addColor
 POST    /addcolorhandle             controllers.ColorController.addColorHandle
 
+#SizeController
+GET     /sizes                     controllers.SizeController.getSizes
+GET     /size/:id                  controllers.SizeController.getSize(id: Int)
+GET     /delsize/:id               controllers.SizeController.delSize(id: Int)
+GET     /size_rm                   controllers.SizeController.getSizeRm
+GET     /size_updt                 controllers.SizeController.getSizeUpdate
+GET     /updatesize/:id            controllers.SizeController.updateSize(id: Int)
+POST    /updatesizehandle          controllers.SizeController.updateSizeHandle
+GET     /addsize                   controllers.SizeController.addSize
+POST    /addsizehandle             controllers.SizeController.addSizeHandle
+
+#StockController
+GET     /stocks                     controllers.StockController.getStocks
+GET     /stock/:id                  controllers.StockController.getStock(id: Int)
+GET     /delstock/:id               controllers.StockController.delStock(id: Int)
+GET     /delonestock/:id            controllers.StockController.delStockOnePiece(id: Int)
+GET     /stock_rm                   controllers.StockController.getStockRm
+GET     /stock_updt                 controllers.StockController.getStockUpdate
+GET     /updatestock/:id            controllers.StockController.updateStock(id: Int)
+POST    /updatestockhandle          controllers.StockController.updateStockHandle
+GET     /addstock                   controllers.StockController.addStock
+POST    /addstockhandle             controllers.StockController.addStockHandle
+
+
 #SearchController
 GET     /searchproducts             controllers.SearchController.filterProducts
 #GET    /searchproducts             controllers.SearchController.filterProductsSnd(products: Seq[Product])

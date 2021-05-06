@@ -30,44 +30,51 @@ INSERT INTO "product" ("category","color", "name", "description","price") VALUES
 (1, 2, "Plecak Osprey Kestrel 48",  "Plecak Osprey Kestrel 48 doskonale sprawdzi się na krótszych trekkingach, gdy w góry wybierasz się na kilka dni i chcesz spakować cały niezbędny ekwipunek. Jednak z tego modelu skorzystają także osoby podejmujące się turystyki lodowcowej, gdzie dochodzi konieczność zabierania ze sobą szpeju wspinaczkowego. Wynika to z jego niezwykle stabilnej konstrukcji oraz szeregu szpejarek, w które wepniesz wszego, czego potrzebujesz.", 77000),
 (1, 4, "Plecak Osprey Kestrel 48",  "Plecak Osprey Kestrel 48 doskonale sprawdzi się na krótszych trekkingach, gdy w góry wybierasz się na kilka dni i chcesz spakować cały niezbędny ekwipunek. Jednak z tego modelu skorzystają także osoby podejmujące się turystyki lodowcowej, gdzie dochodzi konieczność zabierania ze sobą szpeju wspinaczkowego. Wynika to z jego niezwykle stabilnej konstrukcji oraz szeregu szpejarek, w które wepniesz wszego, czego potrzebujesz.", 78500);
 
+--przykladowa rozmiarowka
+INSERT INTO "size" ("size") VALUES
+(0), (380), (385), (390), (395), (400), (405), (410), (415), (420), (425), (430), (435), (440), (445);
+
+--zasoby magazunynu
+INSERT INTO "stock" ("product", "size", "pieces") VALUES
+(1, 2,9),
+(1, 3,3),
+(1, 4,12),
+(1, 5,3),
+(1, 6,6),
+(1, 7,2),
+(1, 8,1),
+
+(2, 2,5),
+(2, 3,4),
+(2, 4,2),
+(2, 5,2),
+(2, 6,1),
+(2, 8,1),
+
+(3, 2,2),
+(3, 3,1),
+(3, 6,1),
+
+(4, 5,2),
+(4, 4,3),
+(4, 7,5),
+(4, 8,6),
+
+(5, 3, 4),
+(5, 5,2),
+(5, 4,6),
+(5, 6, 3),
 
 
-
---
---INSERT INTO "stock" ("id_product", "id_size", "pieces") VALUES
---(1, 380,9),
---(1, 390,3),
---(1, 400,12),
---(1, 415,3),
---(1, 420,6),
---(1, 445,2),
---(1, 450,1),
---
---(2, 380,5),
---(2, 390,4),
---(2, 400,2),
---(2, 415,2),
---(2, 420,1),
---(2, 445,1),
---
---(3, 380,2),
---(3, 390,1),
---(3, 420,1),
---
---(4, 410,2),
---(4, 425,3),
---(4, 440,5),
---(4, 450,6),
---
---(5, 380, 4),
---(5, 400,2),
---(5, 415,6),
---(5, 420, 3),
---
---
---(6, NULL, 3),
---(7, NULL, 6),
---(8, NULL, 2),
---(9, NULL, 2),
---(10, NULL, 1);
+(6, 1, 3),
+(7, 1, 6),
+(8, 1, 2),
+(9, 1, 2),
+(10, 1, 1);
 # --- !Downs
+
+DELETE FROM "stock";
+DELETE FROM "size";
+DELETE FROM "product";
+DELETE FROM "color";
+DELETE FROM "category";

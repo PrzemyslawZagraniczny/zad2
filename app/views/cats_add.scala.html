@@ -13,10 +13,10 @@
 
 
 
-@form(routes.CategoryController.addCategoryHandle) {
+@form(helper.CSRF(routes.CategoryController.addCategoryHandle)) {
 
 @inputText(cats("name"))
-@inputText(cats("value"))
+@inputText(cats("description"))
 
   <div class="buttons">
     <input type="submit" value="Dodaj kategorię"/>

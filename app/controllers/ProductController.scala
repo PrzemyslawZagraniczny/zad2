@@ -1,7 +1,7 @@
 package controllers
 
 import javax.inject._
-import models.{Category, CategoryRepository, Color, ColorRepository, Product, ProductRepository}
+import models.{Category, CategoryRepository, Color, ColorRepository, Product, ProductRepository, SizeRepository}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
@@ -14,7 +14,7 @@ import scala.util.{Failure, Success}
  * application's home page.
  */
 @Singleton
-class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo: CategoryRepository, colorRepo: ColorRepository,  cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
+class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo: CategoryRepository, colorRepo: ColorRepository, sizeRepo: SizeRepository,  cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
 
   val productForm: Form[CreateProductForm] = Form {
     mapping(
@@ -82,6 +82,11 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
       case Failure(_) => print("fail")
     }
 
+    var color:Seq[Color] = Seq[Color]()
+    val colors = colorRepo.list().onComplete{
+      case Success(c) => color = c
+      case Failure(_) => print("fail")
+    }
     val produkt = productsRepo.getById(id)
     produkt.map(product => {
       val prodForm = updateProductForm.fill(UpdateProductForm(product.id, product.category, product.color, product.name, product.description,product.price))
@@ -115,24 +120,36 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
   }
 
 
-  def addProduct: Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
+def addProduct: Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
+    val colors = colorRepo.list()
     val categories = categoryRepo.list()
-    categories.map (cat => Ok(views.html.productadd(productForm, cat)))
+    categories.flatMap(
+          cat  =>  colors.map(cl => Ok(views.html.productadd(productForm, cat, cl)))
+    )
+
   }
 
   def addProductHandle = Action.async { implicit request =>
     var categ:Seq[Category] = Seq[Category]()
+
     val categories = categoryRepo.list().onComplete{
       case Success(cat) =>  categ = cat
-      case Failure(_) => print("fail")
+      case Failure(_) => println("err addProductHandle)")
+    }
+    var c:Seq[Color] = Seq[Color]()
+
+    val colors = colorRepo.list().onComplete{
+      case Success(cl) => c = cl
+      case Failure(_) => println("err addProductHandle")
     }
 
     productForm.bindFromRequest.fold(
       errorForm => {
         Future.successful(
-          BadRequest(views.html.productadd(errorForm, categ))
+          BadRequest(views.html.productadd(errorForm, categ, c))
         )
       },
+
       product => {
 
           productsRepo.create(product.category, product.color, product.name, product.description, product.price).map { _ =>

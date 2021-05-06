@@ -6,14 +6,14 @@ import slick.jdbc.JdbcProfile
 import scala.concurrent.{ Future, ExecutionContext }
 
 @Singleton
-class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, categoryRepository: CategoryRepository, colorRepository: ColorRepository)(implicit ec: ExecutionContext) {
-  private val dbConfig = dbConfigProvider.get[JdbcProfile]
+class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, categoryRepository: CategoryRepository, colorRepository: ColorRepository, sizeRepository: SizeRepository)(implicit ec: ExecutionContext) {
+  protected val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
   import profile.api._
 
 
-  private class ProductTable(tag: Tag) extends Table[Product](tag, "product") {
+  class ProductTable(tag: Tag) extends Table[Product](tag, "product") {
 
     /** The ID column, which is the primary key, and auto incremented */
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
@@ -28,8 +28,8 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
     def color = column[Int]("color")
     def price = column[Int]("price")
 
-    def category_fk = foreignKey("cat_fk1",category, cat)(_.id, onUpdate=ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
-    def color_fk = foreignKey("color_fk",category, col)(_.id, onUpdate=ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
+    //def category_fk = foreignKey("cat_fk",category, cat)(_.id, onUpdate=ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
+    //def color_fk = foreignKey("color_fk",category, col)(_.id, onUpdate=ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
 
 
 
@@ -56,11 +56,12 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
 
   import categoryRepository.CategoryTable
   import colorRepository.ColorTable
+  import sizeRepository.SizeTable
 
   private val product = TableQuery[ProductTable]
   private val cat = TableQuery[CategoryTable]
   private val col = TableQuery[ColorTable]
-
+//  private val siz = TableQuery[SizeTable]
 
   /**
    * Create a person with the given name and age.
@@ -102,7 +103,7 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
    */
   def list(): Future[Seq[Product]] = db.run {
 
-    (product.result)
+    product.result
   }
 
   def getCategoryName(category_id: Int): Future[Seq[Category]] = db.run {
@@ -135,3 +136,4 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
   }
 
 }
+
