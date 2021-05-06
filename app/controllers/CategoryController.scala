@@ -63,74 +63,62 @@ class CategoryController @Inject()(catsRepo: CategoryRepository, cc: MessagesCon
       case None => Redirect(controllers.routes.CategoryController.getCats)
     })
   }
+  //wyświetla liste dla aktualizacji
+  def getCategoryUpdate: Action[AnyContent] = Action.async { implicit request =>
+    val cats = catsRepo.list()
+    cats.map( categorys => Ok(views.html.category_updt(categorys)))
+  }
 
 
+  def updateCategory(id: Int): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
 
-//  def updateProduct(id: Int): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
-//    var categ:Seq[Category] = Seq[Category]()
-//    val categories = categoryRepo.list().onComplete{
-//      case Success(cat) => categ = cat
-//      case Failure(_) => print("fail")
-//    }
-//
-//    val produkt = categoryRepo.category
-//    produkt.map(product => {
-//      val prodForm = UpdateCategoryForm.fill(UpdateCategoryForm(product.id,  product.name, product))
-//      //  id, product.name, product.description, product.category)
-//      //UpdateCategoryForm.fill(prodForm)
-//      Ok(views.html.productupdate(prodForm, categ))
-//    })
-//  }
-//
-//  def updateProductHandle = Action.async { implicit request =>
-//    var categ:Seq[Category] = Seq[Category]()
-//    val categories = categoryRepo.list().onComplete{
-//      case Success(cat) => categ = cat
-//      case Failure(_) => print("fail")
-//    }
-//
-//    UpdateCategoryForm.bindFromRequest.fold(
-//      errorForm => {
-//        Future.successful(
-//          BadRequest(views.html.productupdate(errorForm, categ))
-//        )
-//      },
-//      category => {
-//        categoryRepo.update(category.id, Category(category.id, category.name, category.description )).map { _ =>
-//          Redirect(controllers.routes.HomeController.getProductsUpdate).flashing("success" -> "Zaktualizowano dane o produkcie.")
-//        }
-//      }
-//
-//    )
-//
-//  }
+    val category = catsRepo.getById(id)
+    category.map(c => {
+      val categoryFrm = updateCategoryForm.fill(UpdateCategoryForm(c.id,  c.name, c.description))
+      Ok(views.html.categoryupdate(categoryFrm))
+    })
+  }
+
+  def updateCategoryHandle = Action.async { implicit request =>
+
+    updateCategoryForm.bindFromRequest.fold(
+      errorForm => {
+        Future.successful(
+          BadRequest(views.html.categoryupdate(errorForm))
+        )
+      },
+      category => {
+        catsRepo.update(category.id, Category(category.id, category.name, category.desc )).map { _ =>
+          Redirect(controllers.routes.CategoryController.getCategoryUpdate).flashing("success" -> "Zaktualizowano wartość dla koloru.")
+        }
+      }
+    )
+  }
 
 
-//  def addProduct: Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
-//    val categories = categoryRepo.list()
-//    categories.map (cat => Ok(views.html.productadd(categoryForm, cat)))
-//  }
-//
-//  def addProductHandle = Action.async { implicit request =>
-//    var categ:Seq[Category] = Seq[Category]()
-//    val categories = categoryRepo.list().onComplete{
-//      case Success(cat) =>  categ = cat
-//      case Failure(_) => print("fail")
-//    }
-//
-//    categoryForm.bindFromRequest.fold(
-//      errorForm => {
-//        Future.successful(
-//          BadRequest(views.html.categoryadd(errorForm, categ))
-//        )
-//      },
-//      category => {
-//          categoryRepo.create(category.name).map { _ =>
-//          Redirect(controllers.routes.HomeController.getProducts).flashing("success" -> "Kategoria zostala dodana")
-//        }
-//       }
-//    )
-//  }
+  def addCategory: Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
+    val cats = catsRepo.list()
+    cats.map (cat => Ok(views.html.cats_add(categoryForm)))
+  }
+
+  def addCategoryHandle = Action.async { implicit request =>
+
+
+    categoryForm.bindFromRequest.fold(
+      errorForm => {
+        Future.successful(
+          BadRequest(views.html.cats_add(errorForm))
+        )
+      },
+      category => {
+        catsRepo.create(category.name, category.desc).map { _ =>
+          Redirect(controllers.routes.CategoryController.getCats).flashing("success" -> "Kolor zostal dodany")
+        }
+      }
+    )
+  }
+
+
 }
 
 case class CreateCategoryForm(name: String, desc: String)

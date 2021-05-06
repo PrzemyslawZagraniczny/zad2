@@ -28,6 +28,11 @@ GET     /cats                       controllers.CategoryController.getCats
 GET     /cat/:id                    controllers.CategoryController.getCat(id: Int)
 GET     /delcat/:id                 controllers.CategoryController.delCat(id: Int)
 GET     /catsrm                     controllers.CategoryController.getCatsRm
+GET     /cat_updt                   controllers.CategoryController.getCategoryUpdate
+GET     /updatecat/:id              controllers.CategoryController.updateCategory(id: Int)
+POST    /updatecathandle            controllers.CategoryController.updateCategoryHandle
+GET     /addcat                     controllers.CategoryController.addCategory
+POST    /addcathandle               controllers.CategoryController.addCategoryHandle
 
 #ColorController
 GET     /colors                     controllers.ColorController.getColors
