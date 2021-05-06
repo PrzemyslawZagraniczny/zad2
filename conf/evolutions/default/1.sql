@@ -39,7 +39,12 @@ CREATE TABLE "stock" (
     "pieces" INTEGER NOT NULL DEFAULT 0
 );
 
-
+CREATE TABLE "client" (
+	"id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	"first_name"	VARCHAR(125) NOT NULL,
+	"last_name"	VARCHAR(125) NOT NULL,
+    "NIP" VARCHAR(12) DEFAULT NULL
+);
 
 # --- !Downs
 

@@ -68,6 +68,16 @@ POST    /updatestockhandle          controllers.StockController.updateStockHandl
 GET     /addstock                   controllers.StockController.addStock
 POST    /addstockhandle             controllers.StockController.addStockHandle
 
+#ClientController
+GET     /clients                     controllers.ClientController.getClients
+GET     /client/:id                  controllers.ClientController.getClient(id: Int)
+GET     /delclient/:id               controllers.ClientController.delClient(id: Int)
+GET     /client_rm                   controllers.ClientController.getClientRm
+GET     /client_updt                 controllers.ClientController.getClientUpdate
+GET     /updateclient/:id            controllers.ClientController.updateClient(id: Int)
+POST    /updateclienthandle          controllers.ClientController.updateClientHandle
+GET     /addclient                   controllers.ClientController.addClient
+POST    /addclienthandle             controllers.ClientController.addClientHandle
 
 #SearchController
 GET     /searchproducts             controllers.SearchController.filterProducts
