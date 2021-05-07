@@ -29,6 +29,14 @@
                 <a href=@routes.HomeController.index class="btn btn-menu" id="mainPage">
                     Strona główna
                 </a>
+                <a class="btn btn-menu" id="szukaj_produkt" href = @routes.SearchController.filterProducts >
+                    Sklep
+                </a>
+                <a class="btn btn-menu" id="kosztk" href = @routes.BasketController.getBasketRm >
+                    Koszyk
+                </a>
+            </div>
+            <div class="btn-group">
                 <a class="btn btn-menu" id="produkty_list" href = @routes.ProductController.getProducts >
                     Lista produktów
                 </a>
@@ -62,9 +70,6 @@
 
                 <a class="btn btn-menu" id="aktualizuj_cat" href = @routes.CategoryController.getCategoryUpdate >
                     Aktualizuj kategorię
-                </a>
-                <a class="btn btn-menu" id="szukaj_produkt" href = @routes.SearchController.filterProducts >
-                    Wyszukiwanie produktów
                 </a>
 
 

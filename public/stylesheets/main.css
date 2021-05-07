@@ -13,6 +13,9 @@ body {
 .produkty {
     margin-top: 20px;
 }
+p {
+    margin: 20px;
+}
 .detail {
     margin: auto;
     text-align: center;

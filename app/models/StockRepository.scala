@@ -8,6 +8,8 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class StockRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, productRepository: ProductRepository, sizeRepository: SizeRepository)(implicit ec: ExecutionContext) {
+
+
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
@@ -19,6 +21,9 @@ class StockRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, produc
     def size = column[Int]("size")
     def pieces = column[Int]("pieces")
     def * = (id, product, size, pieces) <> ((Stock.apply _).tupled, Stock.unapply)
+
+//    def sizeFK = foreignKey("size_fk",size, siz)(_.id, onUpdate=ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
+//    def productFK = foreignKey("product_fk",product, productt)(_.id, onUpdate=ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
   }
 
 
@@ -26,11 +31,11 @@ class StockRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, produc
   import sizeRepository.SizeTable
 
   private val stock = TableQuery[StockTable]
-  private val product = TableQuery[ProductTable]
+  private val productt = TableQuery[ProductTable]
   private val siz = TableQuery[SizeTable]
 
   def innerJoinAll() : Future[Seq[(Stock, Product, Size)]] = db.run{
-    stock.join(product).on(_.product === _.id).join(siz).on(_._1.size === _.id).result.map( krotki => {
+    stock.join(productt).on(_.product === _.id).join(siz).on(_._1.size === _.id).result.map( krotki => {
       //        rozbicie tupli ((Product, Category), Color)
       for {
         krotka <- krotki
@@ -70,5 +75,8 @@ class StockRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, produc
 
   def getByIdOption(id: Int): Future[Option[Stock]] = db.run {
     stock.filter(_.id === id).result.headOption
+  }
+  def getByProductId(id: Long): Future[Option[Stock]] = db.run {
+    stock.filter(_.product === id).result.headOption
   }
 }

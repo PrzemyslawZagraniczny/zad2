@@ -101,6 +101,17 @@ POST    /updatediscounthandle          controllers.DiscountController.updateDisc
 GET     /adddiscount                   controllers.DiscountController.addDiscount
 POST    /adddiscounthandle             controllers.DiscountController.addDiscountHandle
 
+#BasketController
+GET     /baskets                     controllers.BasketController.getBaskets
+GET     /basket/:id                  controllers.BasketController.getBasket(id: Int)
+GET     /delbasket/:id               controllers.BasketController.delBasket(id: Int)
+GET     /delonebasket/:id            controllers.BasketController.delBasketOnePiece(id: Int)
+GET     /basket_rm                   controllers.BasketController.getBasketRm
+GET     /basket_updt                 controllers.BasketController.getBasketUpdate
+GET     /updatebasket/:id            controllers.BasketController.updateBasket(id: Int)
+POST    /updatebaskethandle          controllers.BasketController.updateBasketHandle
+GET     /basket_add/:id:pcs          controllers.BasketController.addProduct(id: Long, pcs: Int)
+
 #SearchController
 GET     /searchproducts             controllers.SearchController.filterProducts
 #GET    /searchproducts             controllers.SearchController.filterProductsSnd(products: Seq[Product])

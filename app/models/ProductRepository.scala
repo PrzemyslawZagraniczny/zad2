@@ -34,9 +34,9 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider,
     def price = column[Int]("price")
     def discount = column[Int]("discount")
 
-       //def category_fk = foreignKey("cat_fk",category, cat)(_.id, onUpdate=ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
-    //def color_fk = foreignKey("color_fk",category, col)(_.id, onUpdate=ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
-
+//    def categoryFK = foreignKey("cat_fk",category, cat)(_.id, onUpdate=ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
+//    def colorFK = foreignKey("color_fk",category, col)(_.id, onUpdate=ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
+//    def discountFK = foreignKey("disc_fk",discount, col)(_.id, onUpdate=ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
 
 
 //    def restrict(idc: Int) : Future[Seq[(Product,Category)]] = db.run{
