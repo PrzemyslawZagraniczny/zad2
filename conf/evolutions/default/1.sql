@@ -15,6 +15,13 @@ CREATE TABLE "category" (
 	"description" VARCHAR(500) NOT NULL
 );
 
+-- promocje i obnizki
+CREATE TABLE "discount" (
+	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+     "name" VARCHAR(200) NOT NULL,
+     "value" INTEGER  NOT NULL DEFAULT 0        --procent podatku jako liczba calkowita
+);
+
 
 CREATE TABLE "product" (
 	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -23,6 +30,7 @@ CREATE TABLE "product" (
 	"name" VARCHAR(200) NOT NULL,
 	"description" VARCHAR(500) NOT NULL,
 	"price" INTEGER NOT NULL,   -- price / 100 == PLN
+	"discount" INTEGER NOT NULL REFERENCES discount(id),
 	FOREIGN KEY(category) references category(id) ON DELETE CASCADE
 	FOREIGN KEY(color) references color(id) ON DELETE CASCADE
 );
@@ -49,6 +57,7 @@ CREATE TABLE "ptu" (
  "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
  "name" CHAR(1) NOT NULL,
  "value" INTEGER NOT NULL
+
 );
 
 # --- !Downs

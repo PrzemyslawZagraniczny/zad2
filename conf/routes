@@ -90,6 +90,16 @@ POST    /updateptuhandle          controllers.PTUController.updatePTUHandle
 GET     /addptu                   controllers.PTUController.addPTU
 POST    /addptuhandle             controllers.PTUController.addPTUHandle
 
+#DiscountController
+GET     /discounts                     controllers.DiscountController.getDiscounts
+GET     /discount/:id                  controllers.DiscountController.getDiscount(id: Int)
+GET     /deldiscount/:id               controllers.DiscountController.delDiscount(id: Int)
+GET     /discount_rm                   controllers.DiscountController.getDiscountRm
+GET     /discount_updt                 controllers.DiscountController.getDiscountUpdate
+GET     /updatediscount/:id            controllers.DiscountController.updateDiscount(id: Int)
+POST    /updatediscounthandle          controllers.DiscountController.updateDiscountHandle
+GET     /adddiscount                   controllers.DiscountController.addDiscount
+POST    /adddiscounthandle             controllers.DiscountController.addDiscountHandle
 
 #SearchController
 GET     /searchproducts             controllers.SearchController.filterProducts
