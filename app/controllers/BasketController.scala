@@ -45,7 +45,7 @@ class BasketController @Inject()(basketRepo: BasketRepository,
     //basketRepo.list.map(r => for (rr <- r) { println("basket: "+ rr)})
     baskets.map( s => Ok(views.html.basket_rm(s)))
   }
-
+ 
   def delBasket(id: Int): Action[AnyContent] = Action {
     basketRepo.delete(id)
     Redirect(controllers.routes.BasketController.getBasketRm)
