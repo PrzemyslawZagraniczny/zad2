@@ -30,8 +30,9 @@ CREATE TABLE "product" (
 	"name" VARCHAR(200) NOT NULL,
 	"description" VARCHAR(500) NOT NULL,
 	"price" INTEGER NOT NULL,   -- price / 100 == PLN
-	"discount" INTEGER NOT NULL REFERENCES discount(id),
-	FOREIGN KEY(category) references category(id) ON DELETE CASCADE
+	"discount" INTEGER NOT NULL,
+	FOREIGN KEY(discount) REFERENCES discount(id) ON DELETE CASCADE,
+	FOREIGN KEY(category) references category(id) ON DELETE CASCADE,
 	FOREIGN KEY(color) references color(id) ON DELETE CASCADE
 );
 

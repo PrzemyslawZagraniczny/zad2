@@ -1,7 +1,7 @@
 package controllers
 
 import javax.inject._
-import models.{Category, CategoryRepository, ColorRepository, Product, ProductRepository}
+import models.{Category, CategoryRepository, Color, ColorRepository, Discount, Product, ProductRepository}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
@@ -23,6 +23,7 @@ class SearchController @Inject()(productsRepo: ProductRepository, categoryRepo: 
       "name" -> nonEmptyText,
       "description" -> nonEmptyText,
       "price" -> number,
+      "discount" -> number,
     )(CreateProductForm.apply)(CreateProductForm.unapply)
   }
 
@@ -34,6 +35,7 @@ class SearchController @Inject()(productsRepo: ProductRepository, categoryRepo: 
     "name" -> nonEmptyText,
     "description" -> nonEmptyText,
     "price" -> number,
+      "discount" -> number,
     )(UpdateProductForm.apply)(UpdateProductForm.unapply)
   }
 
@@ -45,9 +47,13 @@ class SearchController @Inject()(productsRepo: ProductRepository, categoryRepo: 
 //  }
 //  rozwinięcie połączenia pomiędzykluczami obcymi
   def filterProducts: Action[AnyContent] = Action.async { implicit request =>
-    val produkty = productsRepo.innerJoinAll()      //==Seq[(Product, Category, Color)]]
+    val produkty:Future[Seq[(Product, Category, Color, Discount)]] = productsRepo.innerJoinAll()      //==Seq[(Product, Category, Color)]]
 
-    produkty.map( products => Ok(views.html.search_products(products)))
+
+    produkty.map( products => {
+
+      Ok(views.html.search_products(products))
+    })
 
   }
 }

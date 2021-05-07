@@ -1,6 +1,14 @@
 body {
     background-color: #ffecb3;
 }
+.stara_cena {
+    text-decoration: line-through;
+    font-size: 0.9em;
+}
+.nowa_cena {
+    text-decoration: none;
+    font-size: 1.1em;
+}
 
 .produkty {
     margin-top: 20px;

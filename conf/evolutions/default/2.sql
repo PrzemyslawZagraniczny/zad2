@@ -33,6 +33,7 @@ INSERT INTO "product" ("category","color", "name", "description","price", "disco
 (1, 2, "Plecak Osprey Kestrel 48",  "Plecak Osprey Kestrel 48 doskonale sprawdzi się na krótszych trekkingach, gdy w góry wybierasz się na kilka dni i chcesz spakować cały niezbędny ekwipunek. Jednak z tego modelu skorzystają także osoby podejmujące się turystyki lodowcowej, gdzie dochodzi konieczność zabierania ze sobą szpeju wspinaczkowego. Wynika to z jego niezwykle stabilnej konstrukcji oraz szeregu szpejarek, w które wepniesz wszego, czego potrzebujesz.", 77000,1),
 (1, 4, "Plecak Osprey Kestrel 48",  "Plecak Osprey Kestrel 48 doskonale sprawdzi się na krótszych trekkingach, gdy w góry wybierasz się na kilka dni i chcesz spakować cały niezbędny ekwipunek. Jednak z tego modelu skorzystają także osoby podejmujące się turystyki lodowcowej, gdzie dochodzi konieczność zabierania ze sobą szpeju wspinaczkowego. Wynika to z jego niezwykle stabilnej konstrukcji oraz szeregu szpejarek, w które wepniesz wszego, czego potrzebujesz.", 78500,2);
 
+
 --przykladowa rozmiarowka
 INSERT INTO "size" ("size") VALUES
 (0), (380), (385), (390), (395), (400), (405), (410), (415), (420), (425), (430), (435), (440), (445);
@@ -91,3 +92,5 @@ DELETE FROM "size";
 DELETE FROM "product";
 DELETE FROM "color";
 DELETE FROM "category";
+DELETE FROM "discount";
+DELETE FROM "ptu";

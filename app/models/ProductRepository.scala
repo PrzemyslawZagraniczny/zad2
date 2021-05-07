@@ -6,7 +6,12 @@ import slick.jdbc.JdbcProfile
 import scala.concurrent.{ Future, ExecutionContext }
 
 @Singleton
-class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, categoryRepository: CategoryRepository, colorRepository: ColorRepository, sizeRepository: SizeRepository)(implicit ec: ExecutionContext) {
+class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider,
+                                   categoryRepository: CategoryRepository,
+                                   colorRepository: ColorRepository,
+                                   sizeRepository: SizeRepository,
+                                   discountRepository: DiscountRepository)
+                                  (implicit ec: ExecutionContext) {
   protected val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
@@ -27,8 +32,9 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
     def category = column[Int]("category")
     def color = column[Int]("color")
     def price = column[Int]("price")
+    def discount = column[Int]("discount")
 
-    //def category_fk = foreignKey("cat_fk",category, cat)(_.id, onUpdate=ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
+       //def category_fk = foreignKey("cat_fk",category, cat)(_.id, onUpdate=ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
     //def color_fk = foreignKey("color_fk",category, col)(_.id, onUpdate=ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
 
 
@@ -46,7 +52,7 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
      * In this case, we are simply passing the id, name and page parameters to the Person case classes
      * apply and unapply methods.
      */
-    def * = (id, category, color, name, description, price) <> ((Product.apply _).tupled, Product.unapply)
+    def * = (id, category, color, name, description, price,discount) <> ((Product.apply _).tupled, Product.unapply)
 
   }
 
@@ -56,11 +62,13 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
 
   import categoryRepository.CategoryTable
   import colorRepository.ColorTable
+  import discountRepository.DiscountTable
   import sizeRepository.SizeTable
 
   private val product = TableQuery[ProductTable]
   private val cat = TableQuery[CategoryTable]
   private val col = TableQuery[ColorTable]
+  private val dis = TableQuery[DiscountTable]
 //  private val siz = TableQuery[SizeTable]
 
   /**
@@ -69,24 +77,36 @@ class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, cat
    * This is an asynchronous operation, it will return a future of the created person, which can be used to obtain the
    * id for that person.
    */
-  def create( category: Int, color: Int, name: String, description: String, price: Int): Future[Product] = db.run {
+  def create( category: Int, color: Int, name: String, description: String, price: Int, discount: Int): Future[Product] = db.run {
     // We create a projection of just the name and age columns, since we're not inserting a value for the id column
-    (product.map(p => (p.category, p.color, p.name, p.description, p.price))
+    (product.map(p => (p.category, p.color, p.name, p.description, p.price, p.discount))
       // Now define it to return the id, because we want to know what id was generated for the person
       returning product.map(_.id)
       // And we define a transformation for the returned value, which combines our original parameters with the
       // returned id
-      into {case ((category, color, name,description,price ),id) => Product(id,category, color, name, description,price)}
+      into {case ((category, color, name,description,price, discount ),id) => Product(id,category, color, name, description,price, discount)}
       // And finally, insert the product into the database
-      ) += (category, color, name, description,price)
+      ) += (category, color, name, description,price, discount)
   }
-  def innerJoinAll() : Future[Seq[(Product, Category, Color)]] = db.run{
-        product.join(cat).on(_.category === _.id).join(col).on(_._1.color === _.id).result.map( krotki => {
-//        rozbicie tupli ((Product, Category), Color)
+  def innerJoinAll() : Future[Seq[(Product, Category, Color, Discount)]] = db.run{
+        product.join(cat).on(_.category === _.id).
+          join(col).on(_._1.color === _.id).
+          join(dis).on(_._1._1.discount === _.id).result.map( krotki => {
+          //        rozbicie tupli (((Product, Category), Color), Discount)
+
           for {
             krotka <- krotki
-          }yield (krotka._1._1, krotka._1._2, krotka._2 )
+          }yield (krotka._1._1._1, krotka._1._1._2, krotka._1._2, krotka._2 )
         })
+  }
+  def innerJoin3() : Future[Seq[(Product, Category, Color)]] = db.run{
+    product.join(cat).on(_.category === _.id).join(col).on(_._1.color === _.id).result.map( krotki => {
+      //        rozbicie tupli ((Product, Category), Color)
+
+      for {
+        krotka <- krotki
+      }yield (krotka._1._1, krotka._1._2, krotka._2 )
+    })
   }
 
   def innerJoinCat() : Future[Seq[(Product,Category)]] = db.run{

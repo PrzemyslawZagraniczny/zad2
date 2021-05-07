@@ -1,7 +1,7 @@
 package controllers
 
 import javax.inject._
-import models.{Category, CategoryRepository, Color, ColorRepository, Product, ProductRepository, SizeRepository}
+import models.{Category, CategoryRepository, Color, ColorRepository, DiscountRepository, Product, ProductRepository, SizeRepository}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
@@ -14,7 +14,12 @@ import scala.util.{Failure, Success}
  * application's home page.
  */
 @Singleton
-class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo: CategoryRepository, colorRepo: ColorRepository, sizeRepo: SizeRepository,  cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
+class ProductController @Inject()(productsRepo: ProductRepository,
+                                  categoryRepo: CategoryRepository,
+                                  colorRepo: ColorRepository,
+                                  discountRepo: DiscountRepository,
+                                  cc: MessagesControllerComponents)
+                                 (implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
 
   val productForm: Form[CreateProductForm] = Form {
     mapping(
@@ -23,6 +28,7 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
       "name" -> nonEmptyText,
       "description" -> nonEmptyText,
       "price" -> number,
+      "discount" -> number,
     )(CreateProductForm.apply)(CreateProductForm.unapply)
   }
 
@@ -34,6 +40,7 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
       "name" -> nonEmptyText,
       "description" -> nonEmptyText,
       "price" -> number,
+      "discount" -> number,
     )(UpdateProductForm.apply)(UpdateProductForm.unapply)
   }
 
@@ -88,12 +95,16 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
       case Failure(_) => print("fail")
     }
     val produkt = productsRepo.getById(id)
-    produkt.map(product => {
-      val prodForm = updateProductForm.fill(UpdateProductForm(product.id, product.category, product.color, product.name, product.description,product.price))
-      //  id, product.name, product.description, product.category)
-      //updateProductForm.fill(prodForm)
-      Ok(views.html.productupdate(prodForm, categ))
-    })
+    val discount = discountRepo.list()
+
+
+      discount.flatMap( disc => {
+        produkt.map(product => {
+        val prodForm = updateProductForm.fill(UpdateProductForm(product.id, product.category, product.color, product.name, product.description, product.price, product.discount))
+        //  id, product.name, product.description, product.category)
+        //updateProductForm.fill(prodForm)
+        Ok(views.html.productupdate(prodForm, categ, disc))
+      })})
   }
 
   def updateProductHandle = Action.async { implicit request =>
@@ -103,19 +114,21 @@ class ProductController @Inject()(productsRepo: ProductRepository, categoryRepo:
       case Failure(_) => print("fail")
     }
 
-    updateProductForm.bindFromRequest.fold(
-      errorForm => {
+    discountRepo.list().flatMap ( d=>
+      updateProductForm.bindFromRequest.fold(
+        errorForm => {
+          errorForm.errors.map(e => println("err: "+ e))
+          println(errorForm.data)
         Future.successful(
-          BadRequest(views.html.productupdate(errorForm, categ))
+          BadRequest(views.html.productupdate(errorForm, categ, d))
         )
       },
       product => {
-        productsRepo.update(product.id, Product(product.id, product.category, product.color,  product.name, product.description, product.price)).map { _ =>
-          Redirect(controllers.routes.ProductController.getProductsUpdate).flashing("success" -> "Zaktualizowano dane o produkcie.")
+        productsRepo.update(product.id, Product(product.id, product.category, product.color,  product.name, product.description, product.price, product.discount)).map { _ =>
+          Redirect(controllers.routes.SearchController.filterProducts).flashing("success" -> "Zaktualizowano dane o produkcie.")
         }
       }
-
-    )
+    ))
 
   }
 
@@ -152,7 +165,7 @@ def addProduct: Action[AnyContent] = Action.async { implicit request: MessagesRe
 
       product => {
 
-          productsRepo.create(product.category, product.color, product.name, product.description, product.price).map { _ =>
+          productsRepo.create(product.category, product.color, product.name, product.description, product.price, product.discount).map { _ =>
 
           Redirect(controllers.routes.ProductController.getProducts).flashing("success" -> "Produkt zostal dodany")
         }
@@ -161,5 +174,5 @@ def addProduct: Action[AnyContent] = Action.async { implicit request: MessagesRe
   }
 }
 
-case class CreateProductForm( category: Int, color: Int, name: String, description: String, price: Int)
-case class UpdateProductForm(id: Long,category: Int, color: Int, name: String, description: String, price: Int)
+case class CreateProductForm( category: Int, color: Int, name: String, description: String, price: Int, discount: Int)
+case class UpdateProductForm(id: Long,category: Int, color: Int, name: String, description: String, price: Int, discount: Int)
