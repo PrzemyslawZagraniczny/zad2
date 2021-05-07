@@ -45,6 +45,11 @@ CREATE TABLE "client" (
 	"last_name"	VARCHAR(125) NOT NULL,
     "NIP" VARCHAR(12) DEFAULT NULL
 );
+CREATE TABLE "ptu" (
+ "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+ "name" CHAR(1) NOT NULL,
+ "value" INTEGER NOT NULL
+);
 
 # --- !Downs
 

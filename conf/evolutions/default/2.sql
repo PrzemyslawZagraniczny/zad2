@@ -74,6 +74,12 @@ INSERT INTO "stock" ("product", "size", "pieces") VALUES
 
 INSERT INTO "client" ("first_name", "last_name", "NIP" ) VALUES("Przemysław", "Zagraniczny", "7742855054");
 
+INSERT INTO "ptu" ("name", "value") VALUES
+( 'A', 23),
+( 'B', 8),
+( 'C', 5),
+( 'D', 0);
+
 # --- !Downs
 
 DELETE FROM "client";

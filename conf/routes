@@ -79,6 +79,18 @@ POST    /updateclienthandle          controllers.ClientController.updateClientHa
 GET     /addclient                   controllers.ClientController.addClient
 POST    /addclienthandle             controllers.ClientController.addClientHandle
 
+#PTUController
+GET     /ptus                     controllers.PTUController.getPTUs
+GET     /ptu/:id                  controllers.PTUController.getPTU(id: Int)
+GET     /delptu/:id               controllers.PTUController.delPTU(id: Int)
+GET     /ptu_rm                   controllers.PTUController.getPTURm
+GET     /ptu_updt                 controllers.PTUController.getPTUUpdate
+GET     /updateptu/:id            controllers.PTUController.updatePTU(id: Int)
+POST    /updateptuhandle          controllers.PTUController.updatePTUHandle
+GET     /addptu                   controllers.PTUController.addPTU
+POST    /addptuhandle             controllers.PTUController.addPTUHandle
+
+
 #SearchController
 GET     /searchproducts             controllers.SearchController.filterProducts
 #GET    /searchproducts             controllers.SearchController.filterProductsSnd(products: Seq[Product])
