@@ -3,7 +3,7 @@
 
 <p class="detail"> Pierwsze trzy przyciski są widoczne dla klienta. Pozostałe to panel Administracyjny.</p>
 <p>Nie wszystkie opcje są w przyciskach.</p>
-<p>Program nie ma pełnej funkcjonalności sklepu. Skupiałem się na różnorodności a ta nie na funkcjonalnym sklepie</p>
+<p>Program nie ma pełnej funkcjonalności sklepu. Skupiałem się na różnorodności a nie na funkcjonalnym sklepie</p>
 <p>I tak w zakładce sklep wybiramy towar ale lista jest złączeniem (join) po cechach produktu z kluczy obcych (kolor i rozmiar) tak więc nie widzimy jaki rozmiar butów dodajemy do kosza</p>
 <p><b> Stan magazynu</b>b> zawiera liczbę sztuk powiązaną z rozmiarem oraz danym produktem (nie rozdzielam tutaj tego na kolor nie wiemy jakiego koloru jest but - moja wina, źle znormalizowałem bazę)</p>
 <p><b>Aktualizuj Magazyn</b> pozwala dodać sztuki dla danego produktu</p>
