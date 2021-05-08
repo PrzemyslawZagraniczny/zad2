@@ -4,7 +4,9 @@ import javax.inject._
 import models.{Color, ColorRepository, Product, ProductRepository}
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.libs.json.Json
 import play.api.mvc._
+
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
@@ -30,9 +32,10 @@ class ColorController @Inject()(colorRepo: ColorRepository, cc: MessagesControll
     )(UpdateColorForm.apply)(UpdateColorForm.unapply)
   }
 
-  def index = Action {
-    Ok(views.html.index())
+  def getColorsJson = Action.async { implicit request =>
+    colorRepo.list().map(c => Ok(Json.toJson(c)))
   }
+
 
   def getColors: Action[AnyContent] = Action.async { implicit request =>
     val colors = colorRepo.list()

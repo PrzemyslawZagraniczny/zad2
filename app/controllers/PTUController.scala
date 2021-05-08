@@ -4,7 +4,9 @@ import javax.inject._
 import models.{PTU, PTURepository, Product, ProductRepository}
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.libs.json.Json
 import play.api.mvc._
+
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
@@ -29,10 +31,10 @@ class PTUController @Inject()(ptuRepo: PTURepository, cc: MessagesControllerComp
       "value" -> number,
     )(UpdatePTUForm.apply)(UpdatePTUForm.unapply)
   }
-
-  def index = Action {
-    Ok(views.html.index())
-  }
+  //JSON nie serializuje dla typu Char
+//  def getPTUsJson = Action.async { implicit request =>
+//    ptuRepo.list().map(p => Ok(Json.toJson(p)))
+//  }
 
   def getPTUs: Action[AnyContent] = Action.async { implicit request =>
     val ptus = ptuRepo.list()

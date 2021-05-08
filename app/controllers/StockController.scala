@@ -1,10 +1,12 @@
 package controllers
 
 import javax.inject._
-import models.{Stock, StockRepository, Product, ProductRepository}
+import models.{Product, ProductRepository, Stock, StockRepository}
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.libs.json.Json
 import play.api.mvc._
+
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
@@ -41,7 +43,9 @@ class StockController @Inject()(stockRepo: StockRepository, cc: MessagesControll
     val stocks = stockRepo.innerJoinAll()
     stocks.map( s => Ok(views.html.stock_rm(s)))
   }
-
+  def getStocksJson = Action.async { implicit request =>
+    stockRepo.list().map(s => Ok(Json.toJson(s)))
+  }
   def delStock(id: Int): Action[AnyContent] = Action {
     stockRepo.delete(id)
     Redirect(controllers.routes.StockController.getStockRm)

@@ -4,7 +4,9 @@ import javax.inject._
 import models.{Discount, DiscountRepository, Product, ProductRepository}
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.libs.json.Json
 import play.api.mvc._
+
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
@@ -30,8 +32,8 @@ class DiscountController @Inject()(discountRepo: DiscountRepository, cc: Message
     )(UpdateDiscountForm.apply)(UpdateDiscountForm.unapply)
   }
 
-  def index = Action {
-    Ok(views.html.index())
+  def getDiscountsJson = Action.async { implicit request =>
+    discountRepo.list().map(d => Ok(Json.toJson(d)))
   }
 
   def getDiscounts: Action[AnyContent] = Action.async { implicit request =>

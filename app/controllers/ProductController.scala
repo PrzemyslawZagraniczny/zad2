@@ -4,6 +4,7 @@ import javax.inject._
 import models.{Category, CategoryRepository, Color, ColorRepository, DiscountRepository, Product, ProductRepository, SizeRepository}
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.libs.json.Json
 import play.api.mvc._
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -131,7 +132,9 @@ class ProductController @Inject()(productsRepo: ProductRepository,
     ))
 
   }
-
+def getProductsJson = Action.async { implicit request =>
+  productsRepo.list().map(p => Ok(Json.toJson(p)))
+}
 
 def addProduct: Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     val colors = colorRepo.list()

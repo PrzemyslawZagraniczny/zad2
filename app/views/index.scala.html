@@ -1,7 +1,7 @@
 @()
 
 @main("Sklep - projekt") {
-  <h1 class="detail"> Sklep - projekt </h1>
+  <h1 class="detail"> Sklep - projekt polecenia 2 -4</h1>
 
 <p class="detail"> Pierwsze trzy przyciski są widoczne dla klienta. Pozostałe to panel Administracyjny.</p>
 <p>Nie wszystkie opcje są w przyciskach.</p>
@@ -16,6 +16,8 @@
 <p> dodaję w definicji klas pochodnych od Table tworzenie klucza np.:</p>
 <p><i>    def discountFK = foreignKey("disc_fk",discount, col)(_.id, onUpdate=ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)</i></p>
 <p>ale nie przynosi to żadnego skutku. W SQL Browser usunięcie wiersza zależnego usuwa kaskadowo pozostałe więc baza jest poprawna. Nie wiem czemu.</p>
-<p> ostatecznie zakomentowałem referencje obce bo wstrzykiwanie obiektów <i>xxxxTable</i> powodowało błąd:</p>
+<p> ostatecznie zakomentowałem referencje obce bo wstrzykiwanie obiektów <i>xxxxTable</i>  do innych klas Table powodowało błąd:</p>
 <p><u>private value categoryRepository escapes its defining scope as part of type slick.lifted.ForeignKeyQuery</u></p>
+<p> serializacja JSON jest dla wszystkich tabel za wyjątkiem PTU Tutaj Json nie chce konwertować typu Char (rodzaj podatku - 'A', 'B', C', 'D'). Mogłem zapsać do stringa ale...</p>
+
 }

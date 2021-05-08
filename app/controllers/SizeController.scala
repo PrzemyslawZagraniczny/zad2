@@ -1,10 +1,12 @@
 package controllers
 
 import javax.inject._
-import models.{Size, SizeRepository, Product, ProductRepository}
+import models.{Product, ProductRepository, Size, SizeRepository}
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.libs.json.Json
 import play.api.mvc._
+
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
@@ -28,8 +30,8 @@ class SizeController @Inject()(sizeRepo: SizeRepository, cc: MessagesControllerC
     )(UpdateSizeForm.apply)(UpdateSizeForm.unapply)
   }
 
-  def index = Action {
-    Ok(views.html.index())
+  def getSizesJson = Action.async { implicit request =>
+    sizeRepo.list().map(s => Ok(Json.toJson(s)))
   }
 
   def getSizes: Action[AnyContent] = Action.async { implicit request =>

@@ -4,6 +4,7 @@ import javax.inject._
 import models.{Basket, BasketRepository, Product, ProductRepository, Stock, StockRepository}
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.libs.json.Json
 import play.api.mvc._
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -35,6 +36,10 @@ class BasketController @Inject()(basketRepo: BasketRepository,
     )(UpdateBasketForm.apply)(UpdateBasketForm.unapply)
   }
 
+  def getBasketsJson = Action.async { implicit request =>
+    basketRepo.list().map(b => Ok(Json.toJson(b)))
+  }
+
   def getBaskets: Action[AnyContent] = Action.async { implicit request =>
     val baskets = basketRepo.innerJoinAll()
     baskets.map( c => Ok(views.html.baskets(c)))
@@ -45,7 +50,7 @@ class BasketController @Inject()(basketRepo: BasketRepository,
     //basketRepo.list.map(r => for (rr <- r) { println("basket: "+ rr)})
     baskets.map( s => Ok(views.html.basket_rm(s)))
   }
- 
+
   def delBasket(id: Int): Action[AnyContent] = Action {
     basketRepo.delete(id)
     Redirect(controllers.routes.BasketController.getBasketRm)

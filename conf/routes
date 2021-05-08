@@ -22,6 +22,7 @@ GET     /productsrm                 controllers.ProductController.getProductsRm
 GET     /productsupdt               controllers.ProductController.getProductsUpdate
 GET     /product/:id                controllers.ProductController.getProduct(id: Long)
 GET     /delete/:id                 controllers.ProductController.delProduct(id: Long)
+GET     /products_json              controllers.ProductController.getProductsJson
 
 #CategoryController
 GET     /cats                       controllers.CategoryController.getCats
@@ -33,6 +34,7 @@ GET     /updatecat/:id              controllers.CategoryController.updateCategor
 POST    /updatecathandle            controllers.CategoryController.updateCategoryHandle
 GET     /addcat                     controllers.CategoryController.addCategory
 POST    /addcathandle               controllers.CategoryController.addCategoryHandle
+GET     /cats_json                  controllers.CategoryController.getCategoriesJson
 
 #ColorController
 GET     /colors                     controllers.ColorController.getColors
@@ -44,6 +46,7 @@ GET     /updatecolor/:id            controllers.ColorController.updateColor(id: 
 POST    /updatecolorhandle          controllers.ColorController.updateColorHandle
 GET     /addcolor                   controllers.ColorController.addColor
 POST    /addcolorhandle             controllers.ColorController.addColorHandle
+GET     /colors_json                controllers.ColorController.getColorsJson
 
 #SizeController
 GET     /sizes                     controllers.SizeController.getSizes
@@ -55,6 +58,8 @@ GET     /updatesize/:id            controllers.SizeController.updateSize(id: Int
 POST    /updatesizehandle          controllers.SizeController.updateSizeHandle
 GET     /addsize                   controllers.SizeController.addSize
 POST    /addsizehandle             controllers.SizeController.addSizeHandle
+GET     /sizes_json                controllers.SizeController.getSizesJson
+
 
 #StockController
 GET     /stocks                     controllers.StockController.getStocks
@@ -67,6 +72,7 @@ GET     /updatestock/:id            controllers.StockController.updateStock(id: 
 POST    /updatestockhandle          controllers.StockController.updateStockHandle
 GET     /addstock                   controllers.StockController.addStock
 POST    /addstockhandle             controllers.StockController.addStockHandle
+GET     /stocks_json                controllers.StockController.getStocksJson
 
 #ClientController
 GET     /clients                     controllers.ClientController.getClients
@@ -78,6 +84,7 @@ GET     /updateclient/:id            controllers.ClientController.updateClient(i
 POST    /updateclienthandle          controllers.ClientController.updateClientHandle
 GET     /addclient                   controllers.ClientController.addClient
 POST    /addclienthandle             controllers.ClientController.addClientHandle
+GET     /clients_json               controllers.ClientController.getClientsJson
 
 #PTUController
 GET     /ptus                     controllers.PTUController.getPTUs
@@ -89,6 +96,7 @@ GET     /updateptu/:id            controllers.PTUController.updatePTU(id: Int)
 POST    /updateptuhandle          controllers.PTUController.updatePTUHandle
 GET     /addptu                   controllers.PTUController.addPTU
 POST    /addptuhandle             controllers.PTUController.addPTUHandle
+#GET     /ptu_json                controllers.PTUController.getPTUsJson
 
 #DiscountController
 GET     /discounts                     controllers.DiscountController.getDiscounts
@@ -100,6 +108,7 @@ GET     /updatediscount/:id            controllers.DiscountController.updateDisc
 POST    /updatediscounthandle          controllers.DiscountController.updateDiscountHandle
 GET     /adddiscount                   controllers.DiscountController.addDiscount
 POST    /adddiscounthandle             controllers.DiscountController.addDiscountHandle
+GET     /discounts_json                controllers.DiscountController.getDiscountsJson
 
 #BasketController
 GET     /baskets                     controllers.BasketController.getBaskets
@@ -111,6 +120,7 @@ GET     /basket_updt                 controllers.BasketController.getBasketUpdat
 GET     /updatebasket/:id            controllers.BasketController.updateBasket(id: Int)
 POST    /updatebaskethandle          controllers.BasketController.updateBasketHandle
 GET     /basket_add/:id:pcs          controllers.BasketController.addProduct(id: Long, pcs: Int)
+GET     /baskets_json                controllers.BasketController.getBasketsJson
 
 #SearchController
 GET     /searchproducts             controllers.SearchController.filterProducts
