@@ -9,7 +9,7 @@
 <p><b>Aktualizuj Magazyn</b> pozwala dodać sztuki dla danego produktu</p>
 <p><b>Usuń z magazynu</b> usuwa po sztuce lub cały zestaw produktów. Produkty znikają z ekranu w bazie są widziane jako pieces == 0</p>
 <p>magazyn (tabelka stock) to nie produkt - są odzielnymi encjami</p>
-<p>Wiem, że dodawanie do koszyka i usuwanie z magazynu (bo tak to robię - nie przy finalizowaniu zakupu) powinny być atomowe - w tranzakcji - tutaj tego nie zaimplementowałem. Mało czasu i nie wiem jak utworzyć transakcje )</p>
+<p>Wiem, że dodawanie do koszyka i usuwanie z magazynu (bo tak to robię - nie przy finalizowaniu zakupu) powinny być atomowe - w tranzakcji - tutaj tego nie zaimplementowałem. Nie wiem jak utworzyć transakcje )</p>
 <p>Nie wiem też jak zaimplementować kaskadowe usuwanie zależnych krotek w tablach powiązanych (CASCADE ON DELETE). W w tabelach to definiuję i nie działa.</p>
 <p> dodaję w definicji klas pochodnych od Table tworzenie klucza np.:</p>
 <p><i>    def discountFK = foreignKey("disc_fk",discount, col)(_.id, onUpdate=ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)</i></p>
